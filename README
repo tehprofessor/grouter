@@ -1,0 +1,51 @@
+Grouter V1
+----------
+
+A simple router for Goliath. I built this more for learning than anyone else. If anything is wonky, dumb, or totally unnecessary please let me know...
+
+Usage
+-----
+
+Inside your server.rb file:
+
+	require 'router.rb'
+	
+	class Framework < Goliath::API
+	
+	...
+
+	  def process_request
+		Router.initialize! env['REQUEST_PATH'], env['REQUEST_METHOD'] # => Sets up incoming route
+		Router.mix_and_match # => Finds the route (final route)
+		# Dispatcher::call(Router::RouteMap.final_route, params) # => Generic dispatcher to call the final route
+	  end
+
+	  def response(env)
+		unless env['REQUEST_PATH'] == '/favicon.ico'
+			[200, {}, process_request]
+		else
+			[200, {}, "favicon.ico"]
+		end
+	  end
+	end
+
+The example above uses Goliath::Rack::Params for the params variable.
+
+To Do
+-----
+
+*Error handling
+*Make sure non-"GET" requests work
+
+License
+-------
+
+Goliath, Rack, and anything I forgot have their own respective licenses and owners, and are subject to them. The code specifically for Grouter is licensed under the MIT License included below.
+
+Copyright © 2011 Servando Salazar
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
